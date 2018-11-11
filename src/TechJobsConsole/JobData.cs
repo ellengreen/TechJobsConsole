@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
+
 namespace TechJobsConsole
 {
     class JobData
@@ -56,6 +57,26 @@ namespace TechJobsConsole
             }
 
             return jobs;
+        }
+
+        public static List<Dictionary<string, string>> FindByValue(string value)
+        {
+            LoadData();
+
+            List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
+
+            foreach (Dictionary<string, string> job in AllJobs)
+            {
+                foreach (KeyValuePair<string, string> item in job)
+                {
+                    string aValue = item.Value; 
+                    if (aValue.Contains(value))
+                    {
+                        jobs.Add(job);
+                    }
+                }
+            }
+            return jobs; 
         }
 
         /*
