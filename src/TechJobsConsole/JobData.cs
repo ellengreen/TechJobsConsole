@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -6,6 +7,14 @@ using System.Text;
 
 namespace TechJobsConsole
 {
+    public static class StringExtensions
+    {
+        public static bool Contains(this string source, string toCheck, StringComparison comp)
+        {
+            return source?.IndexOf(toCheck, comp) >= 0;
+        }
+    }
+
     class JobData
     {
         static List<Dictionary<string, string>> AllJobs = new List<Dictionary<string, string>>();
@@ -39,6 +48,7 @@ namespace TechJobsConsole
             return values;
         }
 
+        //FIX CASE SENSITIVITY FOR THESE TWO METHODS
         public static List<Dictionary<string, string>> FindByColumnAndValue(string column, string value)
         {
             // load data, if not already loaded
@@ -50,7 +60,7 @@ namespace TechJobsConsole
             {
                 string aValue = row[column];
 
-                if (aValue.Contains(value))
+                if (aValue.Contains(value, StringComparison.OrdinalIgnoreCase))
                 {
                     jobs.Add(row);
                 }
@@ -69,8 +79,8 @@ namespace TechJobsConsole
             {
                 foreach (KeyValuePair<string, string> item in job)
                 {
-                    string aValue = item.Value; 
-                    if (aValue.Contains(value))
+                    //string aValue = item.Value; 
+                    if (item.Value.Contains(value, StringComparison.OrdinalIgnoreCase)) 
                     {
                         jobs.Add(job);
                     }
